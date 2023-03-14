@@ -13,15 +13,13 @@
 body {
     margin: 0;
     font-family: Roboto, sans-serif;
-    background-color: #9898;
 
 }
 
 .wrapper {
     max-width: 350px;
-    margin: 2em auto;
+    margin: 0em auto;
     padding: 0.5em 1em;
-    background-color: #fff;
 }
 
 img {
@@ -59,6 +57,7 @@ li {
 
 .logo {
     color: var(--blue);
+    margin-top: 0;
 }
 
 .avatar {
@@ -92,10 +91,22 @@ li {
 
 /* feed__tweet feed__avatar feed__info feed__username
     feed__body feed_icon-list feed-icon */
+.feed__tweet {
+    border-top: 1px solid var(--gray-700);
+    padding-top: 1.5em;
+}
 
 .feed_icon-list {
     padding: 0 1.5em;
     display: flex;
     justify-content: space-between;
     list-style-type: none;
+}
+
+.icon-red {
+    color: red;
+}
+
+.icon-green {
+    color: green;
 }
