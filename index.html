@@ -6,11 +6,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twimba</title>
+    <!-- Roboto font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <!-- font-awesome/4.7 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- main stylesheet -->
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
-    <div class="wrapper"></div>
+    <div class="wrapper">
+        <header>
+            <h1 class="logo">Twimba</h1>
+        </header>
+        <main>
+            <section class="tweet">
+                <img class="avatar tweet__img" src="./images/scrimbalogo.png" alt="tweet__img">
+                <textarea class="tweet__text" placeholder="What's happening" name="tweet-text" id="" cols="30"
+                    rows="3"></textarea>
+                <button class="btn tweet__btn">Tweet</button>
+            </section>
+            <section class="feed">
+                <article class="feed__tweet">
+                    <img class="avatar feed__avatar" src="./images/troll.jpg" alt="feed_avatar">
+                    <div class="feed__info">
+                        <span class="feed__username">@TrollBot</span>
+                        <p class="feed__body">Buy Bitcoin, ETH Make 💰💰💰 low low prices. Guaranteed return on
+                            investment. HMU DMs open!!</p>
+                        <ul class="feed_icon-list">
+                            <li class="feed-icon"><i class="fa fa-commenting-o" aria-hidden="true"></i> 0</li>
+                            <li class="feed-icon"><i class="fa fa-heart" aria-hidden="true"></i> 10</li>
+                            <li class="feed-icon"><i class="fa fa-retweet" aria-hidden="true"></i> 60</li>
+                        </ul>
+                    </div>
+                </article>
+                <article class="feed__tweet">
+                    <img class="avatar feed__avatar" src="./images/chucknorris.jpeg" alt="feed_avatar">
+                    <div class="feed__info">
+                        <span class="feed__username">@TrollBot</span>
+                        <p class="feed__body">I need volunteers for a one-way mission to Mars 🪐. No experience
+                            necessary🚀</p>
+                        <ul class="feed_icon-list">
+                            <li class="feed-icon"><i class="fa fa-commenting-o" aria-hidden="true"></i> 0</li>
+                            <li class="feed-icon"><i class="fa fa-heart" aria-hidden="true"></i> 10</li>
+                            <li class="feed-icon"><i class="fa fa-retweet" aria-hidden="true"></i> 60</li>
+                        </ul>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
     <script src="./js/index.js" type="module"></script>
 </body>
 
