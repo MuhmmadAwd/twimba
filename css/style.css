@@ -103,6 +103,9 @@ li {
     justify-content: space-between;
     list-style-type: none;
 }
+.hidden{
+    display: none;
+}
 
 .icon-red {
     color: red;
