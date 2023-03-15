@@ -2,10 +2,18 @@ import {
     tweetsData
 } from './data.js'
 
+import {
+    v4 as uuidv4
+} from 'https://jspm.dev/uuid';
+
 function init() {
     renderFeedTweets()
 
     document.addEventListener("click", handleClick)
+}
+
+function renderFeedTweets() {
+    document.querySelector(".feed").innerHTML = getFeedTweets();
 }
 
 function getFeedTweets() {
@@ -33,11 +41,7 @@ function getFeedTweets() {
     return feedTweets
 }
 
-function renderFeedTweets() {
-    document.querySelector(".feed").innerHTML = getFeedTweets();
-}
-
-function handleTweetsData(tweetTarget) {
+function handleTweetsDataSet(tweetTarget) {
     const tweetId = tweetTarget.dataset.id;
     const tweetIcon = tweetTarget.dataset.icon;
     tweetsData.forEach((tweet) => {
@@ -54,10 +58,33 @@ function handleTweetsData(tweetTarget) {
     })
 }
 
+function addTweet(tweetText) {
+    if (tweetText) {
+        tweetsData.unshift({
+            handle: `@MuhmmadAwd`,
+            profilePic: `../images/me.jpeg`,
+            likes: 57,
+            retweets: 3,
+            tweetText: tweetText,
+            replies: [],
+            isLiked: false,
+            isRetweeted: false,
+            uuid: uuidv4()
+        })
+        renderFeedTweets()
+
+    }
+
+}
+
 function handleClick(e) {
     const tweetTarget = e.target;
+    let tweetText = tweetTarget.parentElement.querySelector(".tweet__text")
     if (tweetTarget.dataset.id) {
-        handleTweetsData(tweetTarget)
+        handleTweetsDataSet(tweetTarget)
+    } else if (tweetTarget.dataset.btn) {
+        addTweet(tweetText.value)
+        tweetText.value = ""
     }
 
 }

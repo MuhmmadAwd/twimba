@@ -78,6 +78,7 @@ li {
 
 .tweet__text {
     resize: none;
+    border: 0;
 }
 
 .btn {
