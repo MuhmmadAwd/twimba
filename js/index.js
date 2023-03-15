@@ -16,30 +16,15 @@ function renderFeedTweets() {
     document.querySelector(".feed").innerHTML = getFeedTweets();
 }
 
-function getFeedTweets() {
-    let feedTweets = "";
-    tweetsData.forEach((tweet) => {
-        tweet.isRepliesClose
+function generateTweetHtml(tweet) {
 
-        const iconRedClass = tweet.isLiked ? "icon-red" : ""
-        const iconGreenClass = tweet.isRetweeted ? "icon-green" : ""
-        const replyOpenClass = tweet.isRepliesClose ? "" : "hidden"
+    const iconRedClass = tweet.isLiked ? "icon-red" : "";
+    const iconGreenClass = tweet.isRetweeted ? "icon-green" : "";
+    const replyOpenClass = tweet.isRepliesClose ? "" : "hidden";
 
-        let replies = "";
-        tweet.replies.forEach((reply) => {
-            const replyEl = `
-            <article class="feed__tweet ${replyOpenClass}">
-                <img class="avatar feed__avatar" src="${reply.profilePic}" alt="feed_avatar">
-                <div class="feed__info">
-                <span class="feed__username">${reply.handle}</span>
-                <p class="feed__body">${reply.tweetText}</p>
-                </div>
-            </article>`
-            replies += replyEl
-        })
+    let repliesHtml = generateRepliesHtml(tweet.replies, replyOpenClass)
 
-
-        const tweetEl = `
+    const tweetHtml = `
         <article class="feed__tweet">
             <img class="avatar feed__avatar" src="${tweet.profilePic}" alt="feed_avatar">
             <div class="feed__info">
@@ -50,14 +35,39 @@ function getFeedTweets() {
                 <li class="feed-icon"><i class="fa fa-heart ${iconRedClass}" data-id="${tweet.uuid}" data-icon="like"></i> ${tweet.likes}</li>
                 <li class="feed-icon"><i class="fa fa-retweet ${iconGreenClass}" data-id="${tweet.uuid}" data-icon="retweet"></i> ${tweet.retweets}</li>
             </ul>
-            ${replies}
+            ${repliesHtml}
             </div>
         </article>
         `
+    return tweetHtml;
+}
 
-        feedTweets += tweetEl
+function generateRepliesHtml(replies, replyOpenClass) {
+    let repliesHtml = "";
+
+    replies.forEach((reply) => {
+        const replyHtml = `
+            <article class="feed__tweet ${replyOpenClass}">
+                <img class="avatar feed__avatar" src="${reply.profilePic}" alt="feed_avatar">
+                <div class="feed__info">
+                <span class="feed__username">${reply.handle}</span>
+                <p class="feed__body">${reply.tweetText}</p>
+                </div>
+            </article>
+        `;
+        repliesHtml += replyHtml;
+    });
+
+    return repliesHtml;
+}
+
+function getFeedTweets() {
+    let feedTweetsHtml = "";
+
+    tweetsData.forEach((tweet) => {
+        feedTweetsHtml += generateTweetHtml(tweet)
     })
-    return feedTweets
+    return feedTweetsHtml
 }
 
 function handleTweetDataSet(tweetTarget) {
@@ -77,7 +87,6 @@ function handleTweetDataSet(tweetTarget) {
     renderFeedTweets();
 
 }
-
 
 function addTweet(tweetText) {
     if (tweetText) {
