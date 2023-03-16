@@ -2,7 +2,7 @@
 
 <div align="center">
   <h3>
-    <a href="https://muhmmadawd.github.io/twimba/">
+    <a href="https://stwimba.netlify.app/">
       Live Demo
     </a>
   </h3>
