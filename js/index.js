@@ -16,13 +16,21 @@ function renderFeedTweets() {
     document.querySelector(".feed").innerHTML = getFeedTweets();
 }
 
+function getFeedTweets() {
+    let feedTweetsHtml = "";
+
+    tweetsData.forEach((tweet) => {
+        feedTweetsHtml += generateTweetHtml(tweet)
+    })
+    return feedTweetsHtml
+}
+
 function generateTweetHtml(tweet) {
 
     const iconRedClass = tweet.isLiked ? "icon-red" : "";
     const iconGreenClass = tweet.isRetweeted ? "icon-green" : "";
-    const replyOpenClass = tweet.isRepliesClose ? "" : "hidden";
 
-    let repliesHtml = generateRepliesHtml(tweet.replies, replyOpenClass)
+    let repliesHtml = generateRepliesHtml(tweet)
 
     const tweetHtml = `
         <article class="feed__tweet">
@@ -34,6 +42,7 @@ function generateTweetHtml(tweet) {
                 <li class="feed-icon"><i class="fa fa-commenting" data-id="${tweet.uuid}" data-icon="reply"></i> ${tweet.replies.length}</li>
                 <li class="feed-icon"><i class="fa fa-heart ${iconRedClass}" data-id="${tweet.uuid}" data-icon="like"></i> ${tweet.likes}</li>
                 <li class="feed-icon"><i class="fa fa-retweet ${iconGreenClass}" data-id="${tweet.uuid}" data-icon="retweet"></i> ${tweet.retweets}</li>
+                <li class="feed-icon"><i class="fa fa-trash" data-id="${tweet.uuid}" data-icon="remove"></i></li>
             </ul>
             ${repliesHtml}
             </div>
@@ -42,10 +51,11 @@ function generateTweetHtml(tweet) {
     return tweetHtml;
 }
 
-function generateRepliesHtml(replies, replyOpenClass) {
+function generateRepliesHtml(tweet) {
+    const replyOpenClass = tweet.isRepliesClose ? "" : "hidden";
     let repliesHtml = "";
 
-    replies.forEach((reply) => {
+    tweet.replies.forEach((reply) => {
         const replyHtml = `
             <article class="feed__tweet ${replyOpenClass}">
                 <img class="avatar feed__avatar" src="${reply.profilePic}" alt="feed_avatar">
@@ -57,34 +67,70 @@ function generateRepliesHtml(replies, replyOpenClass) {
         `;
         repliesHtml += replyHtml;
     });
-
+    repliesHtml += `
+            <section class="tweet ${replyOpenClass}">
+            <img class="avatar tweet__img" src="./images/me.jpeg" alt="tweet__img">
+            <textarea class="tweet__text" placeholder="What's happening" name="tweet-text" id="" cols="30"
+                rows="3"></textarea>
+            <button class="btn tweet__btn comment-btn" data-id="${tweet.uuid}">Add Comment</button>
+            </section>
+            `
     return repliesHtml;
 }
 
-function getFeedTweets() {
-    let feedTweetsHtml = "";
-
-    tweetsData.forEach((tweet) => {
-        feedTweetsHtml += generateTweetHtml(tweet)
-    })
-    return feedTweetsHtml
-}
-
 function handleTweetDataSet(tweetTarget) {
+    let tweetText = tweetTarget.parentElement.querySelector(".tweet__text")
+
     const tweetId = tweetTarget.dataset.id;
     const tweetIcon = tweetTarget.dataset.icon;
-    const tweet = tweetsData.find((tweet) => tweet.uuid === tweetId);
+    let tweet = tweetsData.find((tweet) => tweet.uuid === tweetId);
 
-    if (tweetIcon === "like") {
-        tweet.isLiked ? tweet.likes -= 1 : tweet.likes += 1
-        tweet.isLiked = !tweet.isLiked
-    } else if (tweetIcon === "retweet") {
-        tweet.isRetweeted ? tweet.retweets -= 1 : tweet.retweets += 1
-        tweet.isRetweeted = !tweet.isRetweeted
-    } else if (tweetIcon === "reply") {
-        tweet.isRepliesClose = !tweet.isRepliesClose
+    switch (tweetIcon) {
+        case "like":
+            tweet.isLiked ? tweet.likes -= 1 : tweet.likes += 1
+            tweet.isLiked = !tweet.isLiked
+            break;
+
+        case "retweet":
+            tweet.isRetweeted ? tweet.retweets -= 1 : tweet.retweets += 1
+            tweet.isRetweeted = !tweet.isRetweeted
+            break;
+
+        case "reply":
+            tweet.isRepliesClose = !tweet.isRepliesClose
+            break;
+
+        case "remove":
+            const tweetIndex = tweetsData.findIndex((tweet) => tweet.uuid === tweetId);
+            if (tweetIndex !== -1) {
+                tweetsData.splice(tweetIndex, 1);
+            }
+            break;
+
+
+        default:
+            tweet.replies.push({
+                handle: `@MohmmedAwd`,
+                profilePic: `../images/me.jpeg`,
+                tweetText: `${tweetText.value}`,
+            })
+            tweetText.value = ""
+            break;
     }
+
     renderFeedTweets();
+
+}
+
+function handleClick(e) {
+    const tweetTarget = e.target;
+    let tweetText = tweetTarget.parentElement.querySelector(".tweet__text")
+    if (tweetTarget.dataset.id) {
+        handleTweetDataSet(tweetTarget)
+    } else if (tweetTarget.dataset.btn) {
+        addTweet(tweetText.value, tweetTarget)
+        tweetText.value = ""
+    }
 
 }
 
@@ -101,20 +147,8 @@ function addTweet(tweetText) {
             isRetweeted: false,
             uuid: uuidv4()
         })
-        renderFeedTweets()
     }
-
-}
-
-function handleClick(e) {
-    const tweetTarget = e.target;
-    let tweetText = tweetTarget.parentElement.querySelector(".tweet__text")
-    if (tweetTarget.dataset.id) {
-        handleTweetDataSet(tweetTarget)
-    } else if (tweetTarget.dataset.btn) {
-        addTweet(tweetText.value)
-        tweetText.value = ""
-    }
+    renderFeedTweets()
 
 }
 document.addEventListener("DOMContentLoaded", init)

@@ -106,11 +106,18 @@ li {
 .hidden{
     display: none;
 }
-
+.comment-btn{
+    background-color: var(--black);
+    margin: 0 1.5em;
+    font-size: 1rem;
+}
 .icon-red {
     color: red;
 }
-
+.fa-trash{
+    font-size: 1rem;
+    color: rgb(126, 23, 23);
+}
 .icon-green {
     color: green;
 }
