@@ -8,7 +8,7 @@
   </h3>
 </div>
 
-![screenshot](https://ncf-ec2-east-32-hv.xconvert.com/file/converter/download/UtRvg5hsb6P-z-0-y-641337a1b2caae1aad4cf6c8.gif)
+![screenshot](https://raw.githubusercontent.com/MuhmmadAwd/upload-gif/main/twimba%20(1).gif)
 
 <!-- TABLE OF CONTENTS -->
 
